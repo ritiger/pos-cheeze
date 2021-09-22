@@ -47,6 +47,7 @@
 .balance{
     height: 60px;
     /* width: calc(width-2px); */
+    padding: 0 0.5rem;
     border: 1px solid #E5E8E9;
 }
 .cash_customer{
@@ -174,4 +175,9 @@
 
 .mb-0 {
   margin-bottom: 0;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
 }
