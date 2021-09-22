@@ -1,0 +1,147 @@
+.wep_container{
+    border: 2px solid darkgrey;
+}
+.container{
+    display: flex;
+    padding: 10px;
+    column-gap: 5px;
+    /* width: 100%; */
+}
+.section1{
+    flex: 0.8;
+    height: 890px;
+    /* border: 1px solid #4CAF50; */
+}
+.section2{
+    flex: 0.9;
+    height: 890px;
+    /* border: 1px solid #4CAF50; */
+}
+.section3{
+    flex: 1;
+    height: 890px;
+    /* border: 1px solid #4CAF50; */
+}
+.product_title{
+    height: 50px;
+    /* width: calc(width-2px); */
+    border: 1px solid #E5E8E9;
+}
+.product_header{
+    height: 100px;
+    /* width: calc(width-2px); */
+}
+.item-line{
+    height: 40px;
+}
+.porduct-line{
+    height: 59px;
+}
+.product_body{
+    height: 662px;
+    /* width: calc(width-2px); */
+}
+.product-height{
+    height: 570px;
+}
+.balance{
+    height: 60px;
+    /* width: calc(width-2px); */
+    border: 1px solid #E5E8E9;
+}
+.cash_customer{
+    height: 160px;
+    border: 1px solid #E5E8E9;
+}
+.main_menu{
+    height: 330px;
+    border: 1px solid #E5E8E9;
+    display: flex;
+    flex-direction: column;
+}
+.barcode_input{
+    margin-top: 5px;
+    height: 60px;
+    border: 1px solid #E5E8E9;
+}
+.calculator{
+    height: 317px;
+    border: 1px solid #E5E8E9;
+}
+.column-devide{
+    display: flex;
+    flex-direction: column;
+}
+.product_image{
+    height: 160px;
+    /* border: 1px solid #E5E8E9; */
+}
+.cash{
+    height: 330px;
+    border: 1px solid #E5E8E9;
+    display: flex;
+    flex-direction: column;
+}
+.cross-element{
+    flex: 1;
+}
+.cross-devide{
+    display: flex;
+    flex-direction: row;
+}
+.item_search{
+    height: 382px;
+    border: 1px solid #E5E8E9;
+}
+.item_search .it-height{
+    display: flex;
+    justify-content: center;
+}
+.align-self-center{
+    align-self: center;
+}
+.status_bar{
+    /* margin-top: 5px; */
+    height: 30px;
+    border: 1px solid #D3D3D3 ;
+
+}
+.border{
+    border: 1px solid #D3D3D3 ;
+}
+.border-bottom{
+    border-bottom: 1px solid #D3D3D3 ;
+}
+.border-top{
+    border-top: 1px solid #D3D3D3 ;
+}
+.border-left{
+    border-left: 1px solid #D3D3D3 ;
+}
+.border-right{
+    border-right: 1px solid #D3D3D3 ;
+}
+.background-dark{
+    background-color: #313C40;
+    color: white;
+}
+.background-green{
+    background-color: #56BE8D;
+    color: white;
+}
+.background-red{
+    background-color: #F15352;
+    color: white;
+}
+.background-grey{
+    background-color: #E6EBEE;
+}
+.background-grey1{
+    background-color: #F1F5F6;
+}
+.mt-5{
+    margin-top: 5px;
+}
+.it-height{
+    height: 95.5px;
+}
