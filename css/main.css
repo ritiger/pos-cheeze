@@ -47,6 +47,7 @@
 .balance{
     height: 60px;
     /* width: calc(width-2px); */
+    padding: 0 0.5rem;
     border: 1px solid #E5E8E9;
 }
 .cash_customer{
@@ -97,7 +98,7 @@
     display: flex;
     justify-content: center;
 }
-.align-self-center{
+.align-self-center {
     align-self: center;
 }
 .status_bar{
@@ -144,4 +145,39 @@
 }
 .it-height{
     height: 95.5px;
+}
+
+.h-center {
+  display: flex;
+  justify-content: center;
+}
+
+.text-gray {
+  color: #6C7478;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.numpad-item {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.m-0 {
+  margin: 0;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
 }
