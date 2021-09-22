@@ -86,6 +86,9 @@
 .cross-element{
     flex: 1;
 }
+.cross-element1{
+    flex: 0.35;
+}
 .cross-devide{
     display: flex;
     flex-direction: row;
@@ -143,6 +146,9 @@
 .mt-5{
     margin-top: 5px;
 }
+.mt-15{
+    margin-top: 15px;
+}
 .it-height{
     height: 95.5px;
 }
@@ -161,7 +167,7 @@
 }
 
 .numpad-item {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: bold;
 }
 
@@ -176,8 +182,14 @@
 .mb-0 {
   margin-bottom: 0;
 }
-
 .flex-between {
   display: flex;
   justify-content: space-between;
+}
+.text-dark{
+    color: #313C40;
+}
+.text-height{
+    height: 100%;
+    line-height: 40px;
 }
