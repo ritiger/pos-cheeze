@@ -133,44 +133,44 @@
                 </div>
                 <div class="calculator mt-5 cross-devide numpad-item">
                     <div class="cross-element border-right background-dark column-devide">
-                        <div class="h-center cross-element border-bottom it-height">
+                        <div class="h-center cross-element border-bottom it-height numpad-number" data-num="7">
                             <div class="align-self-center">7</div>
                         </div>
-                        <div class="h-center cross-element border-bottom it-height">
+                        <div class="h-center cross-element border-bottom it-height numpad-number" data-num="4">
                             <div class="align-self-center">4</div>
                         </div>
-                        <div class="h-center cross-element border-bottom it-height">
+                        <div class="h-center cross-element border-bottom it-height numpad-number" data-num="1">
                             <div class="align-self-center">1</div>
                         </div>
-                        <div class="h-center cross-element border-bottom it-height">
+                        <div class="h-center cross-element border-bottom it-height numpad-number" data-num="0">
                             <div class="align-self-center">0</div>
                         </div>
                     </div>
                     <div class="cross-element border-right background-dark column-devide">
-                        <div class="h-center cross-element border-bottom it-height">
+                        <div class="h-center cross-element border-bottom it-height numpad-number" data-num="8">
                             <div class="align-self-center">8</div>
                         </div>
-                        <div class="h-center cross-element border-bottom it-height">
+                        <div class="h-center cross-element border-bottom it-height numpad-number" data-num="5">
                             <div class="align-self-center">5</div>
                         </div>
-                        <div class="h-center cross-element border-bottom it-height">
+                        <div class="h-center cross-element border-bottom it-height numpad-number" data-num="2">
                             <div class="align-self-center">2</div>
                         </div>
-                        <div class="h-center cross-element border-bottom it-height">
+                        <div class="h-center cross-element border-bottom it-height" data-num="*">
                             <div class="align-self-center">*</div>
                         </div>
                     </div>
                     <div class="cross-element border-right background-dark column-devide">
-                        <div class="h-center cross-element border-bottom it-height">
+                        <div class="h-center cross-element border-bottom it-height numpad-number" data-num="9">
                             <div class="align-self-center">9</div>
                         </div>
-                        <div class="h-center cross-element border-bottom it-height">
+                        <div class="h-center cross-element border-bottom it-height numpad-number" data-num="6">
                             <div class="align-self-center">6</div>
                         </div>
-                        <div class="h-center cross-element border-bottom it-height">
+                        <div class="h-center cross-element border-bottom it-height numpad-number" data-num="3">
                             <div class="align-self-center">3</div>
                         </div>
-                        <div class="h-center cross-element border-bottom it-height">
+                        <div class="h-center cross-element border-bottom it-height numpad-number" data-num=".">
                             <div class="align-self-center">.</div>
                         </div>
                     </div>
@@ -178,10 +178,10 @@
 
                     <div class="cross-element border-right background-dark column-devide">
                         <div class="cross-element border-bottom column-devide">
-                            <div class="h-center cross-element border-bottom">
+                            <div class="h-center cross-element border-bottom" id="backspace">
                                 <img style="width: 50px;" src="./img/backspace_icon.svg" />
                             </div>
-                            <div class="h-center cross-element">
+                            <div class="h-center cross-element" id="clear-target">
                                 <div class="align-self-center">C</div>
                             </div>
                         </div>
@@ -205,10 +205,16 @@
                     </div>
                 </div>
                 <div class="cash mt-5">
-                    <div class="h-center cross-element border-bottom background-green">
-                        <div class="align-self-center">
+                    <div class="h-center cross-element border-bottom background-green cursor-pointer">
+                        <div id="cash-button" class="align-self-center">
                             <i style="font-size: 40px;" class="fa fa-money" aria-hidden="true"></i>
                             <p class="text-center">Cash</p>
+                        </div>
+                        <div id="cash-card-wrapper" class="d-hide">
+                            <div>
+                                <input id="cash-input" type="text" placeholder="Cash Amount" />
+                                <input id="card-input" type="text" placeholder="Card Amount" />
+                            </div>
                         </div>
                     </div>
                     <div class="cross-element border-bottom cross-devide text-gray">
@@ -275,6 +281,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
         integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
         crossorigin="anonymous"></script>
+    <script src="./js/main.js"></script>
     <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script> -->
 </body>
 

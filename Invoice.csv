@@ -1,0 +1,6 @@
+RecID,CustomerRecID,InvoiceNumber,InvoiceDate,BillingAddressRecID,InvoiceDate,PaymentTermRecID,PaymentMethodRecID,SalesPerson,TotalUnitAmount,TotalDiscountAmount,TotalSubTotal,TotalVATAmount,GrandTotal,CustomerNote,EmployeeNote,StatusRecID,CreatedBranchRecID,ModifiedBy,ModifiedDate,ModifiedTime,InvoiceCreatedBy,InvoiceCreatedDate,InvoiceCreatedTime,InvoiceApprovedBy,InvoiceApprovedDate
+1,1,INV/000001,2021/8/31,1,2021/8/28,1,1,32019,300,0,16000,2400,18400,,,1,5,4,2021/8/28,9:07:55,4,2021/8/28,9:14:54,4,2021/8/28
+2,1,INV/000003,2021/8/29,1,2021/8/31,4,2,4,140,0,2400,360,2760,,,1,5,4,2021/8/28,9:26:43,4,2021/8/28,9:27:58,4,2021/8/28
+3,1,INV/000002,2021/8/31,1,2021/8/30,1,1,5,50,0,1000,150,1150,,,1,5,4,2021/8/28,9:27:07,4,2021/8/28,9:27:45,4,2021/8/28
+4,1,INV/000004,2021/8/31,1,2021/8/31,1,1,32019,28000.1,0,2800,420,3220,,,1,5,32019,2021/8/28,10:08:08,32019,2021/8/28,10:08:42,32019,2021/8/28
+5,2,NULL,NULL,3,2021/8/28,1,1,32019,280,0,280,42,322,,,1,5,4,2021/8/28,12:08:04,NULL,NULL,NULL,NULL,NULL

@@ -193,3 +193,32 @@
     height: 100%;
     line-height: 40px;
 }
+
+.numpad-number {
+    cursor: pointer;
+}
+
+#cash-card-wrapper {
+    width: 100%;
+}
+
+#cash-card-wrapper > div {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+}
+
+#cash-card-wrapper > div > input {
+    width: 50%;
+    height: 100%;
+    font-size: 20px;
+    text-align: right;
+}
+
+.d-hide {
+    display: none;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

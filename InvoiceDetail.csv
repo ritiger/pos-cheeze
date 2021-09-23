@@ -1,0 +1,6 @@
+RecID,InvoiceRecID,UPC,Quantity,TotalUnitAmount,TotalDiscountAmount,TotalSubTotal,TotalVATAmount,GrandTotal,StatisRecID
+,,,,300,0,16000,2400,18400,1
+,,,,140,0,2400,360,2760,1
+,,,,50,0,1000,150,1150,1
+,,,,28000.1,0,2800,420,3220,1
+,,,,280,0,280,42,322,
