@@ -6,6 +6,11 @@ has_focus = 0;
 const TARGET_IDS = ['barcode', 'cash-input', 'card-input'];
 
 $(function() {
+
+    // test
+    getAllProductsReq()
+        .then(products => console.log(products));
+
     // when clicking numbers and '.'.
     $('.numpad-number').on('click', function() {
         const target_id = TARGET_IDS[has_focus];
@@ -50,3 +55,11 @@ $(function() {
         $('#cash-card-wrapper').removeClass('d-hide');
     });
 });
+
+
+
+function getAllProductsReq() {
+    return $.ajax({
+        url: 'api.php?action=get-products',
+    });
+}
