@@ -54,6 +54,32 @@ $(function() {
         $('#cash-button').addClass('d-hide');
         $('#cash-card-wrapper').removeClass('d-hide');
     });
+
+    // whenever the value of barcode input changes.
+    $('#barcode').on('change', function() {
+      const barcode = $(this).val();
+      return getProductByBarcode(barcode)
+        .then(response => {
+          if (response.status) {
+            console.log('[Product By Barcode]', response.data);
+            if (response.data) {
+              // show the product info in the web page.
+              const product = response.data;
+              const price = Number(product.RetailPrice);
+              $('#price-sale').text(price.toFixed(2));
+              $('#price-balance').text(price.toFixed(2));
+              $('#product-name').text(product.Name);
+            } else {
+              $('#price-sale').text('-');
+              $('#price-balance').text('-');
+              $('#product-name').text('-');
+            }
+          } else {
+            // alert user if the request fails.
+            alert(response.message);
+          }
+        });
+    });
 });
 
 
@@ -62,4 +88,14 @@ function getAllProductsReq() {
     return $.ajax({
         url: 'api.php?action=get-products',
     });
+}
+
+function getProductByBarcode(barcode) {
+  const payload = { barcode };
+  return $.ajax({
+    type: 'POST',
+    url: 'api.php?action=get-product-by-barcode',
+    data: JSON.stringify(payload),
+    contentType: "application/json; charset=utf-8",
+  });
 }
