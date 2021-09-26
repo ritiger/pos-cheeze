@@ -63,35 +63,23 @@ $(function() {
       $('#cash-card-wrapper').removeClass('d-hide');
     });
 
-    // whenever the value of barcode input changes.
-    $('#barcode').on('change', function() {
-      const barcode = $(this).val();
-      return getProductByBarcode(barcode)
-        .then(response => {
-          if (response.status) {
-            console.log('[Product By Barcode]', response.data);
-            curProduct = response.data;
-            if (response.data) {
-              // show the product info in the web page.
-              const product = response.data;
-              const price = Number(product.RetailPrice);
-              $('#price-sale').text(price.toFixed(2));
-              $('#price-balance').text(price.toFixed(2));
-              $('#product-name').text(product.Name);
-            } else {
-              $('#price-sale').text('-');
-              $('#price-balance').text('-');
-              $('#product-name').text('-');
-            }
-          } else {
-            // alert user if the request fails.
-            alert(response.message);
-          }
-        });
+    // whenever the user press 'enter' key.
+    $('#barcode').on('keypress', function(e) {
+      if (e.keyCode === 13) {
+        barcodeInputUpdated();
+      }
+    });
+
+    // when the user click the 'enter' button in the UI keyboard.
+    $('#enter-key').on('click', function() {
+      barcodeInputUpdated();
     });
 
     // when clicking 'Payments' button.
     $('#btn-payments').on('click', function() {
+      // if any product is not selected, then return;
+      if (!curProduct) return;
+
       const cashAmt = Number($('#cash-input').val());
       const cardAmt = Number($('#card-input').val());
       // check the sum of inputs are equal to product price.
@@ -114,9 +102,39 @@ $(function() {
           alert(res.message);
         });
     });
+
+
 });
 
 
+function barcodeInputUpdated() {
+  console.log('[Barcode] finished input');
+  return;
+
+  const barcode = $('#barcode').val();
+  return getProductByBarcode(barcode)
+  .then(response => {
+    if (response.status) {
+      console.log('[Product By Barcode]', response.data);
+      curProduct = response.data;
+      if (response.data) {
+        // show the product info in the web page.
+        const product = response.data;
+        const price = Number(product.RetailPrice);
+        $('#price-sale').text(price.toFixed(2));
+        $('#price-balance').text(price.toFixed(2));
+        $('#product-name').text(product.Name);
+      } else {
+        $('#price-sale').text('-');
+        $('#price-balance').text('-');
+        $('#product-name').text('-');
+      }
+    } else {
+      // alert user if the request fails.
+      alert(response.message);
+    }
+  });
+}
 
 function getAllProductsReq() {
     return $.ajax({
