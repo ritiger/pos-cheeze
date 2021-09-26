@@ -231,3 +231,8 @@
   justify-content: center;
   text-align: center;
 }
+
+#product-rows {
+  height: calc(100vh - 320px);
+  overflow-y: auto;
+}
