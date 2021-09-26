@@ -6,6 +6,7 @@ has_focus = 0;
 const TARGET_IDS = ['barcode', 'cash-input', 'card-input'];
 
 var curProduct;
+var products = [];
 
 $(function() {
 
@@ -107,10 +108,12 @@ $(function() {
 });
 
 
+/**
+ * This event will be triggered when the user press enter or click UI 'enter' key.
+ * Now the logic has been changed. The user must be able to checkout multiple products at a time.
+ * Left section will show the added products. Means when the user enter a valid barcode, then the product will be showed in a table in the section section.
+ */
 function barcodeInputUpdated() {
-  console.log('[Barcode] finished input');
-  return;
-
   const barcode = $('#barcode').val();
   return getProductByBarcode(barcode)
   .then(response => {
@@ -120,20 +123,41 @@ function barcodeInputUpdated() {
       if (response.data) {
         // show the product info in the web page.
         const product = response.data;
-        const price = Number(product.RetailPrice);
-        $('#price-sale').text(price.toFixed(2));
-        $('#price-balance').text(price.toFixed(2));
-        $('#product-name').text(product.Name);
+        products.push(product);
+        updateLeftSection();
       } else {
-        $('#price-sale').text('-');
-        $('#price-balance').text('-');
-        $('#product-name').text('-');
+        alert('Unable to find the product');
       }
     } else {
       // alert user if the request fails.
       alert(response.message);
     }
   });
+}
+
+function updateLeftSection() {
+  let tableBody = '';
+
+  products.forEach((product, i) => {
+    let price = Number(product.RetailPrice);
+    tableBody += `
+    <div class="item-line border-bottom cross-devide">
+      <div class="text-height border-right cross-element">
+          ${product.Name}
+      </div>
+      <div class="text-height border-right cross-element1">
+          1
+      </div>
+      <div class="text-height border-right cross-element1">
+          -
+      </div>
+      <div class="text-height cross-element1">
+        ${price.toFixed(2)}
+      </div>
+    </div>
+    `;
+  });
+  $('#product-rows').html(tableBody);
 }
 
 function getAllProductsReq() {

@@ -28,7 +28,7 @@
     border: 1px solid #E5E8E9;
 }
 .product_header{
-    height: 100px;
+    /* height: 100px; */
     /* width: calc(width-2px); */
 }
 .item-line{
