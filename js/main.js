@@ -5,6 +5,8 @@ has_focus = 0;
 
 const TARGET_IDS = ['barcode', 'cash-input', 'card-input'];
 
+var curProduct;
+
 $(function() {
 
     // test
@@ -51,8 +53,14 @@ $(function() {
     });
 
     $('#cash-button').on('click', function() {
-        $('#cash-button').addClass('d-hide');
-        $('#cash-card-wrapper').removeClass('d-hide');
+      // if no product is selected, then don't run the code below.
+      if (!curProduct) {
+        alert('Please input a valid barcode!');
+        return;
+      }
+
+      $('#cash-button').addClass('d-hide');
+      $('#cash-card-wrapper').removeClass('d-hide');
     });
 
     // whenever the value of barcode input changes.
@@ -62,6 +70,7 @@ $(function() {
         .then(response => {
           if (response.status) {
             console.log('[Product By Barcode]', response.data);
+            curProduct = response.data;
             if (response.data) {
               // show the product info in the web page.
               const product = response.data;
@@ -78,6 +87,31 @@ $(function() {
             // alert user if the request fails.
             alert(response.message);
           }
+        });
+    });
+
+    // when clicking 'Payments' button.
+    $('#btn-payments').on('click', function() {
+      const cashAmt = Number($('#cash-input').val());
+      const cardAmt = Number($('#card-input').val());
+      // check the sum of inputs are equal to product price.
+      const productPrice = Number(curProduct.RetailPrice);
+      if (cashAmt + cardAmt !== productPrice) {
+        alert('Price does not match!');
+        return;
+      }
+    
+      // compose payload to send to server.
+      const payload = {
+        product_id: curProduct.RecID,
+        cash: cashAmt,
+        card: cardAmt,
+      };
+
+      return addPayment(payload)
+        .then(res => {
+          console.log('[AddPayment][Res]', res);
+          alert(res.message);
         });
     });
 });
@@ -97,5 +131,14 @@ function getProductByBarcode(barcode) {
     url: 'api.php?action=get-product-by-barcode',
     data: JSON.stringify(payload),
     contentType: "application/json; charset=utf-8",
+  });
+}
+
+function addPayment(payload) {
+  return $.ajax({
+    type: 'POST',
+    url: 'api.php?action=add-payment',
+    data: JSON.stringify(payload),
+    contentType: 'application/json',
   });
 }
