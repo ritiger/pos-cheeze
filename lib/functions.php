@@ -48,17 +48,18 @@ function getProductById($id) {
 
 function addPayment($params) {
     global $conn;
-    $product_id = $params['product_id'];
+    $product_ids = $params['product_ids'];
     $cash = $params['cash'];
     $card = $params['card'];
+    $total_price = $params['totalPrice'];
 
-    $product = getProductById($product_id);
+    // $product = getProductById($product_id);
 
     $invoiceNum = 'TEMP';
     $invoiceDate = date('Y-m-d');
     $invoiceTime = date('H:i:s');
-    $query = "INSERT INTO invoice (CustomerRecID, InvoiceNumber, InvoiceDate, TotalUnitAmount, TotalDiscountAmount, TotalSubTotal, TotalVATAmount, GrandTotal, InvoiceCreatedDate, InvoiceCreatedTime) VALUES 
-        (1, '{$invoiceNum}', '{$invoiceDate}', {$product['RetailPrice']}, 0, {$product['RetailPrice']}, 0, {$product['RetailPrice']}, '{$invoiceDate}', '{$invoiceTime}' );";
+    $query = "INSERT INTO invoice (CustomerRecID, InvoiceNumber, InvoiceDate, TotalUnitAmount, TotalDiscountAmount, TotalSubTotal, TotalVATAmount, GrandTotal, InvoiceCreatedDate, InvoiceCreatedTime, CardAmount, CashAmount) VALUES 
+        (1, '{$invoiceNum}', '{$invoiceDate}', {$total_price}, 0, {$total_price}, 0, {$total_price}, '{$invoiceDate}', '{$invoiceTime}', {$card}, {$cash});";
     $result = $conn->query($query);
 
     $invoiceId = $conn->insert_id;
@@ -67,6 +68,16 @@ function addPayment($params) {
 
     $updateQuery = "UPDATE invoice SET invoiceNumber='{$invoiceNum}' WHERE RecID={$invoiceId}";
     $conn->query($updateQuery);
+
+    // create invoice details.
+    for ($i = 0; $i < count($product_ids); $i++) {
+      $product_id = $product_ids[$i];
+      $product = getProductById($product_id);
+      $price = $product['RetailPrice'];
+      $query = "INSERT INTO invoicedetail (InvoiceRecID, UPC, Quantity, TotalUnitAmount, TotalDiscountAmount, TotalSubTotal, TotalVATAmount, GrandTotal) VALUES 
+        ('{$invoiceId}', '{$product['UPC']}', 1, {$price}, 0, {$price}, 0, {$price})";
+      $conn->query($query);
+    }
 
     // get invoice by id.
     return getInvoiceById($invoiceId);
