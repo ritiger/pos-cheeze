@@ -14,11 +14,12 @@ $connectionInfo = [
 ];
 
 // Create connection
+
 $conn = sqlsrv_connect($servername, $connectionInfo);
 
 if ($conn) {
-
+  echo "Connected successfully";
 } else {
-  echo 'Connection could not be established!';
+  echo 'Connection could not be established! <br/> <pre>';
   die(print_r(sqlsrv_errors(), true));
 }
