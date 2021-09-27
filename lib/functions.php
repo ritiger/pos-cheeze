@@ -1,5 +1,5 @@
 <?php
-// 
+
 include __DIR__ . DIRECTORY_SEPARATOR . 'connect_db.php';
 
 $options = [
@@ -58,14 +58,11 @@ function addPayment($params) {
     $card = $params['card'];
     $total_price = $params['totalPrice'];
 
-    // $product = getProductById($product_id);
-
     $invoiceNum = 'TEMP';
     $invoiceDate = date('Y-m-d');
     $invoiceTime = date('H:i:s');
     $query = "INSERT INTO Invoice (CustomerRecID, InvoiceNumber, InvoiceDate, TotalUnitAmount, TotalDiscountAmount, TotalSubTotal, TotalVATAmount, GrandTotal, InvoiceCreatedDate, InvoiceCreatedTime, CardAmount, CashAmount) VALUES 
-        (1, '{$invoiceNum}', '{$invoiceDate}', {$total_price}, 0, {$total_price}, 0, {$total_price}, '{$invoiceDate}', '{$invoiceTime}', {$card}, {$cash});";
-    // $result = $conn->query($query);
+        (1, '{$invoiceNum}', '{$invoiceDate}', {$total_price}, 0, {$total_price}, 0, {$total_price}, '{$invoiceDate}', '{$invoiceTime}', {$card}, {$cash});  SELECT SCOPE_IDENTITY()";
     $resource = sqlsrv_query($conn, $query);
     // if (!$resource) {
     //   $errors = sqlsrv_errors();
@@ -78,11 +75,8 @@ function addPayment($params) {
     // }
     sqlsrv_next_result($resource);
     sqlsrv_fetch($resource);
-    var_dump(sqlsrv_get_field($resource, 0)); exit;
     $invoiceId = sqlsrv_get_field($resource, 0);
-    echo 'invoiceId: ' . $invoiceId; exit;
 
-    // $invoiceId = $conn->insert_id;
     // update invoice id.
     $invoiceNum = 'INV/' . str_pad($invoiceId, 6, '0', STR_PAD_LEFT);
 
@@ -96,8 +90,7 @@ function addPayment($params) {
       $product = getProductById($product_id);
       $price = $product['RetailPrice'];
       $query = "INSERT INTO InvoiceDetail (InvoiceRecID, UPC, Quantity, TotalUnitAmount, TotalDiscountAmount, TotalSubTotal, TotalVATAmount, GrandTotal) VALUES 
-        ('{$invoiceId}', '{$product['UPC']}', 1, {$price}, 0, {$price}, 0, {$price})";
-      // $conn->query($query);
+        ('{$invoiceId}', '{$product['UPC']}', 1, {$price}, 0, {$price}, 0, {$price});  SELECT SCOPE_IDENTITY()";
       sqlsrv_query($conn, $query);
     }
 
