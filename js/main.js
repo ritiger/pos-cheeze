@@ -47,11 +47,20 @@ $(function() {
     $('#cash-input').on('focus', function(){
         has_focus = FOCUS_CASH;
     });
+    // when cash input changes.
+    $('#cash-input').on('change keyup', function() {
+      updateBalancePrice();
+    });
 
     // when clicking card input.
     $('#card-input').on('focus', function() {
         has_focus = FOCUS_CARD;
     });
+    // when cash input changes.
+    $('#card-input').on('change keyup', function() {
+      updateBalancePrice();
+    });
+
 
     $('#cash-button').on('click', function() {
       // if no product is selected, then don't run the code below.
@@ -140,11 +149,20 @@ function barcodeInputUpdated() {
   });
 }
 
+function updateBalancePrice() {
+  const cash = Number($('#cash-input').val() || 0);
+  const card = Number($('#card-input').val() || 0);
+  const totalPrice = Number($('#price-sale').text());
+  const balance = totalPrice - cash - card;
+  $('#price-balance').text(balance);
+}
+
 function updateLeftSection() {
   let tableBody = '';
-
+  let totalPrice = 0;
   products.forEach((product, i) => {
     let price = Number(product.RetailPrice);
+    totalPrice += price;
     tableBody += `
     <div class="item-line border-bottom cross-devide">
       <div class="text-height border-right cross-element truncated">
@@ -163,6 +181,9 @@ function updateLeftSection() {
     `;
   });
   $('#product-rows').html(tableBody);
+  $('#price-sale').text(totalPrice.toFixed(2));
+  $('#price-balance').text(totalPrice.toFixed(2));
+  $('#product-qty').text(products.length);
 }
 
 function initializeStatus() {
