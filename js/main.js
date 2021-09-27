@@ -84,22 +84,26 @@ $(function() {
       const cashAmt = Number($('#cash-input').val());
       const cardAmt = Number($('#card-input').val());
       // check the sum of inputs are equal to product price.
-      const productPrice = Number(curProduct.RetailPrice);
-      if (cashAmt + cardAmt !== productPrice) {
+      const totalPrice = Number($('#price-sale').text());
+      if (cashAmt + cardAmt !== totalPrice) {
         alert('Price does not match!');
         return;
       }
     
       // compose payload to send to server.
+
       const payload = {
-        product_id: curProduct.RecID,
+        product_ids: products.map(product => product.RecID),
+        totalPrice,
         cash: cashAmt,
         card: cardAmt,
       };
 
       return addPayment(payload)
         .then(res => {
-          console.log('[AddPayment][Res]', res);
+          if (res.status) {
+            initializeStatus();
+          }
           alert(res.message);
         });
     });
@@ -124,6 +128,7 @@ function barcodeInputUpdated() {
         // show the product info in the web page.
         const product = response.data;
         products.push(product);
+        $('#barcode').val('');
         updateLeftSection();
       } else {
         alert('Unable to find the product');
@@ -142,7 +147,7 @@ function updateLeftSection() {
     let price = Number(product.RetailPrice);
     tableBody += `
     <div class="item-line border-bottom cross-devide">
-      <div class="text-height border-right cross-element">
+      <div class="text-height border-right cross-element truncated">
           ${product.Name}
       </div>
       <div class="text-height border-right cross-element1">
@@ -158,6 +163,15 @@ function updateLeftSection() {
     `;
   });
   $('#product-rows').html(tableBody);
+}
+
+function initializeStatus() {
+  products = [];
+  updateLeftSection();
+  $('#cash-input').val(0);
+  $('#card-input').val(0);
+  $('#cash-button').removeClass('d-hide');
+  $('#cash-card-wrapper').addClass('d-hide');
 }
 
 function getAllProductsReq() {
