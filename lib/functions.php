@@ -2,6 +2,10 @@
 // 
 include __DIR__ . DIRECTORY_SEPARATOR . 'connect_db.php';
 
+$options = [
+  'Scrollable' => SQLSRV_CURSOR_KEYSET,
+];
+
 function returnJSON($data) {
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode($data);
@@ -15,13 +19,13 @@ function getJSONRequest() {
 }
 
 function getAllProducts() {
-    global $conn;
-    $result = $conn->query('SELECT * FROM Product');
+    global $conn, $options;
+    $stmt = sqlsrv_query($conn, 'SELECT * FROM Product', [], $options);
     $products = [];
 
-    if ($result->num_rows > 0) {
+    if (sqlsrv_num_rows($stmt) > 0) {
         // output data of each row
-        while($row = $result->fetch_assoc()) {
+        while($row = sqlsrv_fetch_array($stmt)) {
             $products[] = $row;
         }
     }
@@ -29,21 +33,22 @@ function getAllProducts() {
 }
 
 function getProductByBarcode($barcode) {
-    global $conn;
-    $query = "SELECT * FROM product WHERE UPC='" . $barcode . "'";
-    $result = $conn->query($query);
+    global $conn, $options;
+    $query = "SELECT * FROM Product WHERE UPC='" . $barcode . "'";
 
-    if ($result->num_rows > 0) {
-        return $result->fetch_assoc();
+    $stmt = sqlsrv_query($conn, $query, [], $options);
+
+    if (sqlsrv_num_rows($stmt) > 0) {
+      return sqlsrv_fetch_array($stmt);
     }
     return null;
 }
 
 function getProductById($id) {
-    global $conn;
-    $query = "SELECT * FROM product WHERE RecID={$id}";
-    $result = $conn->query($query);
-    return $result->fetch_assoc();
+    global $conn, $options;
+    $query = "SELECT * FROM Product WHERE RecID={$id}";
+    $stmt = sqlsrv_query($conn, $query, [], $options);
+    return sqlsrv_fetch_array($stmt);
 }
 
 function addPayment($params) {
@@ -58,25 +63,42 @@ function addPayment($params) {
     $invoiceNum = 'TEMP';
     $invoiceDate = date('Y-m-d');
     $invoiceTime = date('H:i:s');
-    $query = "INSERT INTO invoice (CustomerRecID, InvoiceNumber, InvoiceDate, TotalUnitAmount, TotalDiscountAmount, TotalSubTotal, TotalVATAmount, GrandTotal, InvoiceCreatedDate, InvoiceCreatedTime, CardAmount, CashAmount) VALUES 
+    $query = "INSERT INTO Invoice (CustomerRecID, InvoiceNumber, InvoiceDate, TotalUnitAmount, TotalDiscountAmount, TotalSubTotal, TotalVATAmount, GrandTotal, InvoiceCreatedDate, InvoiceCreatedTime, CardAmount, CashAmount) VALUES 
         (1, '{$invoiceNum}', '{$invoiceDate}', {$total_price}, 0, {$total_price}, 0, {$total_price}, '{$invoiceDate}', '{$invoiceTime}', {$card}, {$cash});";
-    $result = $conn->query($query);
+    // $result = $conn->query($query);
+    $resource = sqlsrv_query($conn, $query);
+    // if (!$resource) {
+    //   $errors = sqlsrv_errors();
+    //   foreach( $errors as $error ) {
+    //     echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+    //     echo "code: ".$error[ 'code']."<br />";
+    //     echo "message: ".$error[ 'message']."<br />";
+    //   }
+    //   exit;
+    // }
+    sqlsrv_next_result($resource);
+    sqlsrv_fetch($resource);
+    var_dump(sqlsrv_get_field($resource, 0)); exit;
+    $invoiceId = sqlsrv_get_field($resource, 0);
+    echo 'invoiceId: ' . $invoiceId; exit;
 
-    $invoiceId = $conn->insert_id;
+    // $invoiceId = $conn->insert_id;
     // update invoice id.
     $invoiceNum = 'INV/' . str_pad($invoiceId, 6, '0', STR_PAD_LEFT);
 
-    $updateQuery = "UPDATE invoice SET invoiceNumber='{$invoiceNum}' WHERE RecID={$invoiceId}";
-    $conn->query($updateQuery);
+    $updateQuery = "UPDATE Invoice SET InvoiceNumber='{$invoiceNum}' WHERE RecID={$invoiceId}";
+    // $conn->query($updateQuery);
+    sqlsrv_query($conn, $updateQuery);
 
     // create invoice details.
     for ($i = 0; $i < count($product_ids); $i++) {
       $product_id = $product_ids[$i];
       $product = getProductById($product_id);
       $price = $product['RetailPrice'];
-      $query = "INSERT INTO invoicedetail (InvoiceRecID, UPC, Quantity, TotalUnitAmount, TotalDiscountAmount, TotalSubTotal, TotalVATAmount, GrandTotal) VALUES 
+      $query = "INSERT INTO InvoiceDetail (InvoiceRecID, UPC, Quantity, TotalUnitAmount, TotalDiscountAmount, TotalSubTotal, TotalVATAmount, GrandTotal) VALUES 
         ('{$invoiceId}', '{$product['UPC']}', 1, {$price}, 0, {$price}, 0, {$price})";
-      $conn->query($query);
+      // $conn->query($query);
+      sqlsrv_query($conn, $query);
     }
 
     // get invoice by id.
@@ -84,8 +106,8 @@ function addPayment($params) {
 }
 
 function getInvoiceById($id) {
-    global $conn;
-    $query = "SELECT * FROM invoice WHERE RecID={$id}";
-    $result = $conn->query($query);
-    return $result->fetch_assoc();
+    global $conn, $options;
+    $query = "SELECT * FROM Invoice WHERE RecID={$id}";
+    $stmt = sqlsrv_query($conn, $query);
+    return sqlsrv_fetch_array($stmt);
 }
