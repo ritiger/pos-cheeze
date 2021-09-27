@@ -16,7 +16,7 @@ function getJSONRequest() {
 
 function getAllProducts() {
     global $conn;
-    $result = $conn->query('SELECT * FROM product');
+    $result = $conn->query('SELECT * FROM Product');
     $products = [];
 
     if ($result->num_rows > 0) {
